@@ -1,3 +1,31 @@
+# Distribution with FDS driver
+## Build
+```
+docker build -f DockerFileFDSDriver -t docker-registry:latest .
+```
+
+## Run
+```
+docker run \
+  -e REGISTRY_STORAGE_FDS_ACCESSKEY=${FDS_ACCESS_KEY} \
+  -e REGISTRY_STORAGE_FDS_SECRETKEY=${FDS_SECRET_KEY} \
+  -d \
+  -p 80:5000 \
+  --name docker-registry \
+  docker-registry:latest
+```
+
+## Debug
+```
+docker run \
+  -e REGISTRY_STORAGE_FDS_ACCESSKEY=${ACCESS_KEY} \
+  -e REGISTRY_STORAGE_FDS_SECRETKEY=${SECRET_KEY} \
+  -i -t \
+  -p 80:5000 \
+  --name docker-registry \
+  docker-registry:latest
+```
+
 # Distribution
 
 The Docker toolset to pack, ship, store, and deliver content.
