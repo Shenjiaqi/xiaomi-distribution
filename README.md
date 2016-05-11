@@ -26,6 +26,12 @@ docker run \
   docker-registry:latest
 ```
 
+## Enable mirror cache
+```
+# restart docker daemon with command:
+docker --registry-mirror=https://hub.docker.d.xiaomi.net daemon
+```
+
 # Distribution
 
 The Docker toolset to pack, ship, store, and deliver content.
