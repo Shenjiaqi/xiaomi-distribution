@@ -31,7 +31,7 @@ storage:
         enablehttps: false
         enablecdn: false
         chunksize: 11485760
-        rootdirectory: /var/lib/registry
+        rootdirectory: /var/lib/registry_mirror
     maintenance:
         uploadpurging:
             enabled: false
@@ -41,6 +41,8 @@ http:
         addr: localhost:5001
     headers:
         X-Content-Type-Options: [nosniff]
+proxy:
+    remoteurl: https://registry-1.docker.io
 redis:
   addr: localhost:6379
   pool:

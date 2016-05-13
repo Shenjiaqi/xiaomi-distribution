@@ -9,10 +9,27 @@ docker build -f DockerFileFDSDriver -t docker-registry:latest .
 docker run \
   -e REGISTRY_STORAGE_FDS_ACCESSKEY=${FDS_ACCESS_KEY} \
   -e REGISTRY_STORAGE_FDS_SECRETKEY=${FDS_SECRET_KEY} \
+  -v /home/work/.certs:/certs \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/x.d.xiaomi.net.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/x.d.xiaomi.net.key \
   -d \
   -p 80:5000 \
   --name docker-registry \
   docker-registry:latest
+```
+
+### Run as mirror
+```
+docker run \
+  -e REGISTRY_STORAGE_FDS_ACCESSKEY=${FDS_ACCESS_KEY} \
+  -e REGISTRY_STORAGE_FDS_SECRETKEY=${FDS_SECRET_KEY} \
+  -v /home/work/.certs:/certs \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/x.d.xiaomi.net.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/x.d.xiaomi.net.key \
+  -d \
+  -p 80:5000 \
+  --name docker-mirror \
+  docker-registry:latest serve /etc/docker/registry/mirror-config.yml
 ```
 
 ## Debug
