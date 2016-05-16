@@ -46,7 +46,7 @@ docker run \
 ## Enable mirror cache
 ```
 # restart docker daemon with command:
-docker --registry-mirror=https://hub.docker.d.xiaomi.net daemon
+docker --registry-mirror=https://mirror-docker.d.xiaomi.net daemon
 ```
 
 # Distribution

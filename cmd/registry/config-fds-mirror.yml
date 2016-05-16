@@ -31,7 +31,7 @@ storage:
         enablehttps: false
         enablecdn: false
         chunksize: 11485760
-        rootdirectory: /var/lib/registry_mirror
+        rootdirectory: /registry_mirror
     maintenance:
         uploadpurging:
             enabled: false
