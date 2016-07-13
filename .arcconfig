@@ -1,4 +1,6 @@
 {
-      "project_id" : "distribution",
-      "conduit_uri" : "https://phabricator.d.xiaomi.net/"
+  "project_id" : "distribution",
+  "conduit_uri" : "https://phabricator.d.xiaomi.net/",
+  "base" : "git:merge-base(origin/master-4ecea4b-xm1.0), arc:prompt",
+  "arc.land.onto.default": "master-4ecea4b-xm1.0"
 }
