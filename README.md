@@ -1,7 +1,11 @@
-# Distribution with FDS driver
+# Distribution with Xiaomi's patches (FDS driver and cloud-manager)
 ## Build
 ```
-docker build -f DockerFileFDSDriver -t docker-registry:latest .
+# checkout github.com/XiaoMi/galaxy-fds-sdk-golang
+git submodule init
+git submodule update
+# build docker image
+docker build -f Dockerfile-xm -t docker-registry-xm:latest .
 ```
 
 ## Run
@@ -9,13 +13,10 @@ docker build -f DockerFileFDSDriver -t docker-registry:latest .
 docker run \
   -e REGISTRY_STORAGE_FDS_ACCESSKEY=${FDS_ACCESS_KEY} \
   -e REGISTRY_STORAGE_FDS_SECRETKEY=${FDS_SECRET_KEY} \
-  -v /home/work/.certs:/certs \
-  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/x.d.xiaomi.net.crt \
-  -e REGISTRY_HTTP_TLS_KEY=/certs/x.d.xiaomi.net.key \
   -d \
-  -p 80:5000 \
-  --name docker-registry \
-  docker-registry:latest
+  -p 7777:5000 \
+  --name docker-registry-prod \
+  docker-registry-xm:latest serve /etc/docker/registry/config-prod.yml
 ```
 
 ### Run as mirror
@@ -23,13 +24,10 @@ docker run \
 docker run \
   -e REGISTRY_STORAGE_FDS_ACCESSKEY=${FDS_ACCESS_KEY} \
   -e REGISTRY_STORAGE_FDS_SECRETKEY=${FDS_SECRET_KEY} \
-  -v /home/work/.certs:/certs \
-  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/x.d.xiaomi.net.crt \
-  -e REGISTRY_HTTP_TLS_KEY=/certs/x.d.xiaomi.net.key \
   -d \
-  -p 80:5000 \
-  --name docker-mirror \
-  docker-registry:latest serve /etc/docker/registry/mirror-config.yml
+  -p 7778:5000 \
+  --name docker-registry-mirror \
+  docker-registry-xm:latest serve /etc/docker/registry/config-mirror.yml
 ```
 
 ## Debug
@@ -40,7 +38,21 @@ docker run \
   -i -t \
   -p 80:5000 \
   --name docker-registry \
-  docker-registry:latest
+  docker-registry-xm:latest serve /etc/docker/registry/config-fds-dev.yml
+```
+
+## Debug with local TLS support (w/o nginx as frontend)
+```
+docker run \
+  -e REGISTRY_STORAGE_FDS_ACCESSKEY=${ACCESS_KEY} \
+  -e REGISTRY_STORAGE_FDS_SECRETKEY=${SECRET_KEY} \
+  -v /home/work/.certs:/certs \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/x.d.xiaomi.net.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/x.d.xiaomi.net.key \
+  -i -t \
+  -p 80:5000 \
+  --name docker-registry \
+  docker-registry-xm:latest serve /etc/docker/registry/config-fds-dev.yml
 ```
 
 ## Enable mirror cache

@@ -5,8 +5,11 @@ ENV DOCKER_BUILDTAGS include_oss include_gcs
 
 WORKDIR $DISTRIBUTION_DIR
 COPY . $DISTRIBUTION_DIR
-COPY cmd/registry/config-fds-dev.yml /etc/docker/registry/config.yml
-COPY cmd/registry/config-fds-mirror.yml /etc/docker/registry/mirror-config.yml
+COPY cmd/registry/config-dev.yml /etc/docker/registry/config.yml
+COPY cmd/registry/config-fds-dev.yml /etc/docker/registry/config-fds-dev.yml
+COPY cmd/registry/config-fds-mirror.yml /etc/docker/registry/config-mirror.yml
+COPY cmd/registry/config-fds-prod.yml /etc/docker/registry/config-prod.yml
+COPY cmd/registry/cloud-manager.ca.crt /etc/docker/registry/cloud-manager.ca.crt
 
 RUN set -ex \
     && apk add --no-cache make git
