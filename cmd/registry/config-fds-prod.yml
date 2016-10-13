@@ -28,6 +28,7 @@ storage:
         secretkey: FDS_SECRET_KEY
         bucket: docker-registry
         region: c3
+        endpoint:
         enablehttps: false
         enablecdn: false
         chunksize: 11485760

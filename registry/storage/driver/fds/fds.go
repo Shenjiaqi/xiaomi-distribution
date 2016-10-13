@@ -37,6 +37,7 @@ type DriverParameters struct {
     SecretKey     string
     Bucket        string
     Region        string
+    Endpoint      string
     EnableHttps   bool
     EnableCDN     bool
     ChunkSize     int64
@@ -46,6 +47,9 @@ type DriverParameters struct {
 func init() {
     for _, region := range []string{
         "",
+        "cnjb0",
+        "cnbj1",
+        "cnbj2",
         "staging",
         "awsbj0",
         "awsusor0",
@@ -106,6 +110,11 @@ func FromParameters(parameters map[string]interface{}) (*Driver, error) {
         return nil, fmt.Errorf("Invalid region provided: %v", region)
     }
 
+    endpoint := parameters["endpoint"]
+    if endpoint == nil {
+        endpoint = ""
+    }
+
     bucket := parameters["bucket"]
     if bucket == nil || fmt.Sprint(bucket) == "" {
         return nil, fmt.Errorf("No bucket parameter provided")
@@ -160,6 +169,7 @@ func FromParameters(parameters map[string]interface{}) (*Driver, error) {
         SecretKey:     fmt.Sprint(secretKey),
         Bucket:        fmt.Sprint(bucket),
         Region:        region,
+        Endpoint:      endpoint,
         EnableHttps:   enableHttps,
         EnableCDN:     enableCDN,
         ChunkSize:     chunkSize,
@@ -173,7 +183,7 @@ func FromParameters(parameters map[string]interface{}) (*Driver, error) {
 // bucketName
 func New(params DriverParameters) (*Driver, error) {
     fdsobj := galaxy_fds_sdk_golang.NEWFDSClient(params.AccessKey,
-        params.SecretKey, params.Region, params.EnableHttps, params.EnableCDN)
+        params.SecretKey, params.Region, params.Endpoint, params.EnableHttps, params.EnableCDN)
     d := &driver{
         fds:              fdsobj,
         driverParameters: params,
