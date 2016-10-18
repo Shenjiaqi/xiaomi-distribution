@@ -32,6 +32,7 @@ func init() {
         enableCDN = false
     }
     region := os.Getenv("FDS_REGION")
+    endpoint := os.Getenv("FDS_ENDPOINT")
     root, err := ioutil.TempDir("", "driver-")
     if err != nil {
         panic(err)
@@ -43,6 +44,7 @@ func init() {
             SecretKey:     secretKey,
             Bucket:        bucket,
             Region:        region,
+            Endpoint:      endpoint,
             EnableHttps:   enableHttps,
             EnableCDN:     enableCDN,
             ChunkSize:     5 << 20,

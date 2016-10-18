@@ -110,10 +110,7 @@ func FromParameters(parameters map[string]interface{}) (*Driver, error) {
         return nil, fmt.Errorf("Invalid region provided: %v", region)
     }
 
-    endpoint := parameters["endpoint"]
-    if endpoint == nil {
-        endpoint = ""
-    }
+    endpoint := fmt.Sprint(parameters["endpoint"])
 
     bucket := parameters["bucket"]
     if bucket == nil || fmt.Sprint(bucket) == "" {
